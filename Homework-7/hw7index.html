@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src = "https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  </head>
+  <body>
+    <h1><center>The Meme Stream</center></h1>
+    <div class="memes">
+
+    </div>
+    <br><br>
+    <h4>Add Your Meme!</h4>
+    <br><br>
+    <p>Name of Meme: </p><input id="meme_name"><br>
+    <p>Id of Meme: </p><input id="meme_id"><br>
+    <p>Meme Publisher(you): </p><input id="meme_publisher"><br>
+    <p>Meme Subject: </p><input id="meme_subject"><br>
+    <p>Meme Adress: </p><input id="meme_adress"><br>
+    <button id="submit">sUbmIt dEm MEMES!!</button>
+    <script type="text/javascript">
+      $("#submit").click(()=>{
+        $.ajax({
+          method: "POST",
+          url: "https://data.sparkfun.com/streams/GEGDXgV88yTDbdrybnLy.json",
+          headers: {
+            "Phant-Private-Key": "NnlAoqMddNfjEr6YEv2Y"
+          },
+          data: {memename: $("#meme_name").val(), memeid: $("#meme_id").val(), memepub:$("#meme_publisher").val(), memesubject: $("#meme_subject").val(), memeadress:$("#meme_adress").val()},
+          dataType: "json",
+          success: (data)=>{
+            console.log(`sucess!${data}`);
+          }
+          $.get("https://data.sparkfun.com/streams/GEGDXgV88yTDbdrybnLy",
+            (response)=>{
+              $(".memes").append(`<img src="${response[response.length].memeadress}"><br>
+              <p>Meme Name: ${response[response.length].memename}<br>
+              Meme ID: ${response[response.length].memeid}<br>
+              Meme Subject: ${response[response.length].memesubject}<br>
+              Meme Publisher: ${response[response.length].memepub}</p>`)
+            }
+          );
+        });
+      });
+      window.onload = ()=>{
+        $.get("https://data.sparkfun.com/streams/GEGDXgV88yTDbdrybnLy",
+          (response1)=>{
+            for(let x = 0; x<response.length+1; x++){
+              $(".memes").append(`<img src="${response1[x].memeadress}"><br>
+              <p>Meme Name: ${response1[x].memename}<br>
+              Meme ID: ${response1[x].memeid}<br>
+              Meme Subject: ${response1[x].memesubject}<br>
+              Meme Publisher: ${response1[x].memepub}</p>`)
+            }
+          }
+        );
+      }
+    </script>
+  </body>
+</html>
