@@ -29,20 +29,20 @@
           dataType: "json",
           success: (data)=>{
             console.log(`sucess!${data}`);
+            $.get("https://data.sparkfun.com/streams/GEGDXgV88yTDbdrybnLy",
+              (response)=>{
+                $(".memes").append(`<img src="${response[response.length].memeadress}"><br>
+                <p>Meme Name: ${response[response.length].memename}<br>
+                Meme ID: ${response[response.length].memeid}<br>
+                Meme Subject: ${response[response.length].memesubject}<br>
+                Meme Publisher: ${response[response.length].memepub}</p>`)
+              }
+            );
           }
-          $.get("https://data.sparkfun.com/streams/GEGDXgV88yTDbdrybnLy",
-            (response)=>{
-              $(".memes").append(`<img src="${response[response.length].memeadress}"><br>
-              <p>Meme Name: ${response[response.length].memename}<br>
-              Meme ID: ${response[response.length].memeid}<br>
-              Meme Subject: ${response[response.length].memesubject}<br>
-              Meme Publisher: ${response[response.length].memepub}</p>`)
-            }
-          );
         });
       });
       window.onload = ()=>{
-        $.get("https://data.sparkfun.com/streams/GEGDXgV88yTDbdrybnLy",
+        $.get("https://data.sparkfun.com/output/GEGDXgV88yTDbdrybnLy.json",
           (response1)=>{
             for(let x = 0; x<response.length+1; x++){
               $(".memes").append(`<img src="${response1[x].memeadress}"><br>
