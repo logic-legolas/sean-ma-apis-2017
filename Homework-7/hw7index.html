@@ -1,6 +1,13 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <style>
+      .memes{
+        position: fixed;
+        right: 10%;
+        top: 20px;
+      }
+    </style>
     <script src = "https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   </head>
   <body>
@@ -21,15 +28,15 @@
       $("#submit").click(()=>{
         $.ajax({
           method: "POST",
-          url: "https://data.sparkfun.com/streams/GEGDXgV88yTDbdrybnLy.json",
+          url: "https://data.sparkfun.com/streams/DavYpZ7M6Mi6Rgmv7vDM",
           headers: {
-            "Phant-Private-Key": "NnlAoqMddNfjEr6YEv2Y"
+            "Phant-Private-Key": "PndZP2WobocwJ9DANAeq"
           },
           data: {memename: $("#meme_name").val(), memeid: $("#meme_id").val(), memepub:$("#meme_publisher").val(), memesubject: $("#meme_subject").val(), memeadress:$("#meme_adress").val()},
           dataType: "json",
           success: (data)=>{
             console.log(`sucess!${data}`);
-            $.get("https://data.sparkfun.com/streams/GEGDXgV88yTDbdrybnLy",
+            $.get("https://data.sparkfun.com/streams/DavYpZ7M6Mi6Rgmv7vDM",
               (response)=>{
                 $(".memes").append(`<img src="${response[response.length].memeadress}"><br>
                 <p>Meme Name: ${response[response.length].memename}<br>
@@ -42,7 +49,7 @@
         });
       });
       window.onload = ()=>{
-        $.get("https://data.sparkfun.com/output/GEGDXgV88yTDbdrybnLy.json",
+        $.get("https://data.sparkfun.com/streams/DavYpZ7M6Mi6Rgmv7vDM",
           (response1)=>{
             for(let x = 0; x<response.length+1; x++){
               $(".memes").append(`<img src="${response1[x].memeadress}"><br>
