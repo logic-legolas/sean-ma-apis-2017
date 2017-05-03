@@ -1,62 +1,79 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <style>
-      .memes{
+      .addmeme{
         position: fixed;
         right: 10%;
-        top: 20px;
+        top: 80px;
+      }
+      .memepic{
+        height: 200px;
+        width: auto;
       }
     </style>
     <script src = "https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   </head>
   <body>
-    <h1><center>The Meme Stream</center></h1>
+    <b><u><h1><center>tHe meMe sTremE</center></h1></u></b>
     <div class="memes">
 
     </div>
     <br><br>
-    <h4>Add Your Meme!</h4>
-    <br><br>
-    <p>Name of Meme: </p><input id="meme_name"><br>
-    <p>Id of Meme: </p><input id="meme_id"><br>
-    <p>Meme Publisher(you): </p><input id="meme_publisher"><br>
-    <p>Meme Subject: </p><input id="meme_subject"><br>
-    <p>Meme Adress: </p><input id="meme_adress"><br>
-    <button id="submit">sUbmIt dEm MEMES!!</button>
+    <div class="addmeme">
+      <h4>Add Your Meme!</h4>
+      <br><br>
+      <p>Name of Meme: </p><input id="meme_name"><br>
+      <p>Id of Meme: </p><input id="meme_id"><br>
+      <p>Meme Publisher (you): </p><input id="meme_publisher"><br>
+      <p>Meme Subject: </p><input id="meme_subject"><br>
+      <p>Meme Url: </p><input id="meme_adress"><br><br>
+
+      <button id="submit">sUbmIt dEm MEMES!!</button>
+    </div>
     <script type="text/javascript">
+      let newmeme;
       $("#submit").click(()=>{
         $.ajax({
           method: "POST",
-          url: "https://data.sparkfun.com/streams/DavYpZ7M6Mi6Rgmv7vDM",
+          url: "https://data.sparkfun.com/input/DavYpZ7M6Mi6Rgmv7vDM.json",
           headers: {
             "Phant-Private-Key": "PndZP2WobocwJ9DANAeq"
           },
           data: {memename: $("#meme_name").val(), memeid: $("#meme_id").val(), memepub:$("#meme_publisher").val(), memesubject: $("#meme_subject").val(), memeadress:$("#meme_adress").val()},
           dataType: "json",
           success: (data)=>{
-            console.log(`sucess!${data}`);
-            $.get("https://data.sparkfun.com/streams/DavYpZ7M6Mi6Rgmv7vDM",
+            $.get("https://data.sparkfun.com/output/DavYpZ7M6Mi6Rgmv7vDM.json",
               (response)=>{
-                $(".memes").append(`<img src="${response[response.length].memeadress}"><br>
-                <p>Meme Name: ${response[response.length].memename}<br>
-                Meme ID: ${response[response.length].memeid}<br>
-                Meme Subject: ${response[response.length].memesubject}<br>
-                Meme Publisher: ${response[response.length].memepub}</p>`)
+                newmeme = response[0];
+                $(".memes").append(`<div style="margin: 20px; width:600px">
+                  <center><p><h3>${newmeme.memename}</h3><br>
+                  <img style="height:200px; width:auto;" src="${newmeme.memeadress}"><br>
+                  Meme ID: ${newmeme.memeid}<br>
+                  Meme Subject: ${newmeme.memesubject}<br>
+                  Meme Publisher: ${newmeme.memepub}</p></center>
+                </div>`)
               }
             );
           }
         });
       });
+      console.log("about to set onload");
       window.onload = ()=>{
-        $.get("https://data.sparkfun.com/streams/DavYpZ7M6Mi6Rgmv7vDM",
+        console.log("onload start");
+        $.get("https://data.sparkfun.com/output/DavYpZ7M6Mi6Rgmv7vDM.json",
           (response1)=>{
-            for(let x = 0; x<response.length+1; x++){
-              $(".memes").append(`<img src="${response1[x].memeadress}"><br>
-              <p>Meme Name: ${response1[x].memename}<br>
-              Meme ID: ${response1[x].memeid}<br>
-              Meme Subject: ${response1[x].memesubject}<br>
-              Meme Publisher: ${response1[x].memepub}</p>`)
+            console.log(response1);
+            for(let x = 0; x<response1.length; x++){
+              newmeme=response1[x];
+              $(".memes").append(`<div style="margin: 20px; width:1000px">
+                <center><p><h3><b>${newmeme.memename}</b></h3><br><br>
+                <img style="height:400px; width:auto;" src="${newmeme.memeadress}"><br>
+                Meme ID: ${newmeme.memeid}<br>
+                Meme Subject: ${newmeme.memesubject}<br>
+                Meme Publisher: ${newmeme.memepub}</p></center><br><br><br>
+              </div>`);
             }
           }
         );
